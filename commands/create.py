@@ -3,8 +3,10 @@ import os
 
 import sublime
 
+from ..libs import bracex
 from ..libs.input_for_path import InputForPath
 from ..libs.sublimefunctions import (
+    get_window,
     get_template,
     refresh_sidebar,
     transform_aliases,
@@ -21,25 +23,28 @@ class FmCreaterCommand(FmWindowCommand):
         input_path = user_friendly(input_path)
         if input_path[-1] == "/":
             return os.makedirs(abspath, exist_ok=True)
-        if not os.path.isfile(abspath):
-            os.makedirs(os.path.dirname(abspath), exist_ok=True)
-            with open(abspath, "w"):
-                pass
-            template = get_template(abspath)
-        else:
-            template = None
+        files_to_create = bracex.expand(abspath)
+        for file in files_to_create:
+            if not os.path.isfile(file):
+                os.makedirs(os.path.dirname(file), exist_ok=True)
+                with open(file, "w") as fp:
+                    pass
+                template = get_template(file)
+            else:
+                template = None
 
-        settings = self.window.open_file(abspath).settings()
-        if template:
-            settings.set("fm_insert_snippet_on_load", template)
+            window = get_window()
+            view = window.open_file(file)
+            settings = view.settings()
+            if template:
+                settings.set("fm_insert_snippet_on_load", template)
+            if settings.get("reveal_in_sidebar"):
+                settings.set("fm_reveal_in_sidebar", True)
+                sublime.set_timeout_async(
+                    lambda: window.run_command("reveal_in_side_bar"), 500
+                )
 
-        refresh_sidebar(settings, self.window)
-
-        if self.settings.get("reveal_in_sidebar"):
-            settings.set("fm_reveal_in_sidebar", True)
-            sublime.set_timeout(
-                lambda: self.window.run_command("reveal_in_side_bar"), 500
-            )
+        refresh_sidebar(settings, window)
 
 
 class FmCreateCommand(FmWindowCommand):
@@ -52,7 +57,8 @@ class FmCreateCommand(FmWindowCommand):
     ):
         view = self.window.active_view()
 
-        self.index_folder_separator = self.settings.get("index_folder_" + "separator")
+        self.index_folder_separator = self.settings.get(
+            "index_folder_" + "separator")
         self.default_index = self.settings.get("default_index")
 
         self.folders = self.window.folders()
@@ -61,7 +67,8 @@ class FmCreateCommand(FmWindowCommand):
 
         if paths is not None:
             # creating from the sidebar
-            create_from = paths[0].replace("${packages}", sublime.packages_path())
+            create_from = paths[0].replace(
+                "${packages}", sublime.packages_path())
 
             create_from = transform_aliases(self.window, create_from)
 

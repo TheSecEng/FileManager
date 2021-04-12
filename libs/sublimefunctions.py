@@ -34,6 +34,10 @@ def refresh_sidebar(settings=None, window=None):
         window.run_command("refresh_folder_list")
 
 
+def get_window():
+    return sublime.active_window()
+
+
 def get_template(created_file):
     """Return the right template for the create file"""
     global TEMPLATE_FOLDER
