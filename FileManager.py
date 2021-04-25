@@ -1,4 +1,16 @@
 # -*- encoding: utf-8 -*-
+from .commands.open_terminal import FmOpenTerminalCommand
+from .commands.open_in_explorer import FmOpenInExplorerCommand
+from .commands.open_in_browser import FmOpenInBrowserCommand
+from .commands.open_all import FmOpenAllCommand
+from .commands.move import FmMoveCommand
+from .commands.find_in_files import FmFindInFilesCommand
+from .commands.editto import FmEditToTheLeftCommand, FmEditToTheRightCommand
+from .commands.duplicate import FmDuplicateCommand
+from .commands.delete import FmDeleteCommand
+from .commands.create_from_selection import FmCreateFileFromSelectionCommand
+from .commands.create import FmCreaterCommand, FmCreateCommand
+from .commands.copy import FmCopyCommand
 import sys
 
 import sublime
@@ -14,41 +26,9 @@ for module_name in [
     del sys.modules[module_name]
 prefix = None
 
-from .commands.copy import FmCopyCommand
-from .commands.create import FmCreaterCommand, FmCreateCommand
-from .commands.create_from_selection import FmCreateFileFromSelectionCommand
-from .commands.delete import FmDeleteCommand
-from .commands.duplicate import FmDuplicateCommand
-from .commands.editto import FmEditToTheLeftCommand, FmEditToTheRightCommand
-from .commands.find_in_files import FmFindInFilesCommand
-from .commands.move import FmMoveCommand
-from .commands.open_all import FmOpenAllCommand
-from .commands.open_in_browser import FmOpenInBrowserCommand
-from .commands.open_in_explorer import FmOpenInExplorerCommand
-from .commands.open_terminal import FmOpenTerminalCommand
-from .commands.rename import FmRenameCommand, FmRenamePathCommand
-
 
 def plugin_loaded():
     settings = sublime.load_settings("FileManager.sublime-settings")
-    # this use to be a supported setting, but we dropped it. (see #27)
-    if settings.get("auto_close_empty_groups") is not None:
-        # we could remove the setting automatically, and install the
-        # package if it was set to true, but it'd be an extra source
-        # of bugs, and it doesn't take that much effort (it's a one
-        # time thing, so it doesn't need to be automated)
-        sublime.error_message(
-            "FileManager\n\n"
-            "auto_close_empty_groups is set, but this setting is no longer "
-            "supported.\n\n"
-            "Auto closing empty groups (in the layout) use to be a feature "
-            "of FileManager, but it has now moved to it's own package.\n\n"
-            "If you still want this behaviour, you can install "
-            "AutoCloseEmptyGroup, it's available on package control.\n\n"
-            "To disable this warning, unset the setting "
-            "auto_close_empty_groups in FileManager.sublime-settings (search "
-            "for Preferences: FileManager Settings in the command palette)"
-        )
 
 
 class FmEditReplace(sublime_plugin.TextCommand):

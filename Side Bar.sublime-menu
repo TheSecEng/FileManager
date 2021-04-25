@@ -31,14 +31,14 @@
             "files": []
         }
     },
-    {
-        "caption": "Rename…",
-        "mnemonic": "R",
-        "command": "fm_rename_path",
-        "args": {
-            "paths": []
-        }
-    },
+    // {
+    //     "caption": "Rename…",
+    //     "mnemonic": "R",
+    //     "command": "fm_rename_path",
+    //     "args": {
+    //         "paths": []
+    //     }
+    // },
     {
         "caption": "Move…",
         "command": "fm_move",
@@ -55,14 +55,14 @@
             "paths": []
         }
     },
-    {
-        "caption": "Delete…",
-        "command": "fm_delete",
-        "mnemonic": "e",
-        "args": {
-            "paths": []
-        }
-    },
+    // {
+    //     "caption": "Delete…",
+    //     "command": "fm_delete",
+    //     "mnemonic": "e",
+    //     "args": {
+    //         "paths": []
+    //     }
+    // },
     {
         "caption": "-"
     },

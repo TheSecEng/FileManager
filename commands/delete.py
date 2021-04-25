@@ -3,8 +3,7 @@ import os
 
 import sublime
 
-from ..libs.sublimefunctions import refresh_sidebar
-from ..libs.send2trash import send2trash
+# from ..libs.sublimefunctions import refresh_sidebar
 from .fmcommand import FmWindowCommand
 
 
@@ -45,14 +44,16 @@ class FmDeleteCommand(FmWindowCommand):
                         view.set_scratch(True)
                         view.close()
                         view = window.find_open_file(path)
-
                 try:
-                    send2trash(path)
+                    window.run_command(
+                        'delete_file', {"files": [path], 'prompt': False})
                 except OSError as e:
-                    sublime.error_message("Unable to send to trash: {}".format(e))
-                    raise OSError("Unable to send {0!r} to trash: {1}".format(path, e))
+                    sublime.error_message(
+                        "Unable to send to trash: {}".format(e))
+                    raise OSError(
+                        "Unable to send {0!r} to trash: {1}".format(path, e))
 
-            refresh_sidebar(self.settings, self.window)
+            # refresh_sidebar(self.settings, self.window)
 
         elif index > 1:
             self.paths.pop(index - 2)

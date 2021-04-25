@@ -1,4 +1,5 @@
 site/
+test_data/
 test.py
 __pycache__/
 Thumbs.db

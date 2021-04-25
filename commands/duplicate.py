@@ -7,7 +7,6 @@ import sublime
 from ..libs.input_for_path import InputForPath
 from ..libs.sublimefunctions import refresh_sidebar, yes_no_cancel_panel
 from ..libs.pathhelper import user_friendly
-from ..libs.send2trash import send2trash
 from .fmcommand import FmWindowCommand
 
 
@@ -54,15 +53,14 @@ class FmDuplicateCommand(FmWindowCommand):
                 )
         else:
             if not os.path.exists(dst):
-                with open(dst, "w") as fp:
-                    with open(self.origin, "r") as fpread:
-                        fp.write(fpread.read())
+                shutil.copy(self.origin, dst)
                 self.window.open_file(dst)
             else:
 
                 def overwrite():
                     try:
-                        send2trash(dst)
+                        self.window.run_command(
+                            'delete_file', {"files": [dst], 'prompt': False})
                     except OSError as e:
                         sublime.error_message(
                             "Unable to send to trash: {}".format(e))
@@ -71,9 +69,7 @@ class FmDuplicateCommand(FmWindowCommand):
                                 e)
                         )
 
-                    with open(dst, "w") as fp:
-                        with open(self.origin, "r") as fpread:
-                            fp.write(fpread.read())
+                    shutil.copy(self.origin, dst)
                     self.window.open_file(dst)
 
                 def open_file():

@@ -106,7 +106,7 @@ rhythm to the doc, which make it more enjoyable to read. — [more info][admonit
     [
         {
             "path": "C:\\Users\\math\\AppData\\Roaming\\Sublime Text 3\\Packages\\FileManager",
-            "folder_exclude_patterns": [".sublime", "FMCommands", "messages", "send2trash", "site",
+            "folder_exclude_patterns": [".sublime", "FMCommands", "messages", "bracex", "site",
                                         "tests"],
             "file_exclude_patterns": ["messages.json", "*.py"]
         }
