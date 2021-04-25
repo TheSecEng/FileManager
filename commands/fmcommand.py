@@ -10,7 +10,8 @@ class FmWindowCommand(sublime_plugin.WindowCommand):
         try:
             return cls.settings_
         except AttributeError:
-            cls.settings_ = sublime.load_settings("FileManager.sublime-settings")
+            cls.settings_ = sublime.load_settings(
+                "FileManager.sublime-settings")
             return cls.settings_
 
     def is_visible(self, *args, **kwargs):
@@ -29,10 +30,4 @@ class FmWindowCommand(sublime_plugin.WindowCommand):
             )
             show = True
 
-        return bool(
-            show
-            and (
-                not self.settings.get("menu_without_distraction")
-                or self.is_enabled(*args, **kwargs)
-            )
-        )
+        return bool(show and self.is_enabled(*args, **kwargs))

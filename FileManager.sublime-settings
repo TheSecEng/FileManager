@@ -8,7 +8,7 @@
 
 
     // auto complete with files
-    "complete_with_files_too": true,
+    "autocomplete_with_files_too": true,
 
     // only relevant if complete_with_files_too is true
     // choose folder over file if folder and file are available for
@@ -17,7 +17,7 @@
     "pick_first": "folders",
 
     // define if the auto completion case sensitive
-    "case_sensitive": false,
+    "autocomplete_case_sensitive": false,
 
     // recommended to be a char that cannot be in a file name
     "index_folder_separator": ">",
@@ -28,9 +28,8 @@
 
     // valid value
     // false: disable the log
-    // "user": display a user friendly path. eg: ~/Desktop/   (working on window)
-    // "computer": display a computer friendly path: C:\User\<user>\Desktop\
-    "log_in_status_bar": "computer",
+    // true: display a computer friendly path: C:\User\<user>\Desktop\
+    "log_in_status_bar": true,
 
     // terminals
     // if there is only one, it will directly open it
@@ -46,28 +45,24 @@
         {
             "name": "CMD",
             "cmd": ["cmd"],
-            "platform": "windows"
+            "platform": ["windows"]
         },
         {
             "name": "Terminal",
             "cmd": ["open", "-a", "Terminal", "$cwd"],
-            "platform": "osx"
+            "platform": ["osx"]
         },
         {
             "name": "iTerm",
             "cmd": ["open", "-a", "iTerm", "$cwd"],
-            "platform": "osx"
+            "platform": ["osx"]
         },
         {
             "name": "GNOME Terminal",
             "cmd": ["gnome-terminal"],
-            "platform": "linux"
+            "platform": ["linux"]
         }
     ],
-
-    // If set to true, all the command that are disabled (in grey)
-    // will be hidden
-    "menu_without_distraction": true,
 
     // auto refresh the side bar when you run any action that might affect it
     // by default, sublime text would do it by itself, but if this is

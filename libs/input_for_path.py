@@ -237,8 +237,6 @@ class InputForPath(object):
             )
             if self.input_path != "" and self.input_path[-1] == "/":
                 path += os.path.sep
-            if self.log_in_status_bar == "user":
-                path = user_friendly(path)
             set_status(self.view, self.STATUS_KEY, self.log_template.format(path))
 
         if not hasattr(self.input, "settings"):

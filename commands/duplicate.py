@@ -29,7 +29,7 @@ class FmDuplicateCommand(FmWindowCommand):
             create_from="",
             with_files=False,
             pick_first=self.settings.get("pick_first"),
-            case_sensitive=self.settings.get("case_sensitive"),
+            case_sensitive=self.settings.get("autocomplete_case_sensitive"),
             log_in_status_bar=self.settings.get("log_in_status_bar"),
             log_template="Duplicating at {0}",
         )
@@ -37,7 +37,8 @@ class FmDuplicateCommand(FmWindowCommand):
         head = len(os.path.dirname(initial_path)) + 1
         filename = len(os.path.splitext(os.path.basename(initial_path))[0])
         self.input.input.view.selection.clear()
-        self.input.input.view.selection.add(sublime.Region(head, head + filename))
+        self.input.input.view.selection.add(
+            sublime.Region(head, head + filename))
 
     def duplicate(self, dst, input_path):
         user_friendly_path = user_friendly(dst)
@@ -63,9 +64,11 @@ class FmDuplicateCommand(FmWindowCommand):
                     try:
                         send2trash(dst)
                     except OSError as e:
-                        sublime.error_message("Unable to send to trash: {}".format(e))
+                        sublime.error_message(
+                            "Unable to send to trash: {}".format(e))
                         raise OSError(
-                            "Unable to send to the trash the item {0}".format(e)
+                            "Unable to send to the trash the item {0}".format(
+                                e)
                         )
 
                     with open(dst, "w") as fp:

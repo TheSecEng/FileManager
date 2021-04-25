@@ -14,7 +14,8 @@ from .fmcommand import FmWindowCommand
 class FmRenamePathCommand(FmWindowCommand):
     def run(self, paths=None):
         self.window.run_command(
-            "rename_path", {"paths": paths or [self.window.active_view().file_name()]}
+            "rename_path", {"paths": paths or [
+                self.window.active_view().file_name()]}
         )
 
 
@@ -41,9 +42,9 @@ class FmRenameCommand(FmWindowCommand):
             on_change=None,
             on_cancel=None,
             create_from=os.path.dirname(self.origin),
-            with_files=self.settings.get("complete_with_files_too"),
+            with_files=self.settings.get("autocomplete_with_files_too"),
             pick_first=self.settings.get("pick_first"),
-            case_sensitive=self.settings.get("case_sensitive"),
+            case_sensitive=self.settings.get("autocomplete_case_sensitive"),
             log_in_status_bar=self.settings.get("log_in_status_bar"),
             log_template="Renaming to {0}",
         )
@@ -80,7 +81,8 @@ class FmRenameCommand(FmWindowCommand):
                 try:
                     send2trash(dst)
                 except OSError as e:
-                    sublime.error_message("Unable to send to trash: {}".format(e))
+                    sublime.error_message(
+                        "Unable to send to trash: {}".format(e))
                     raise OSError(
                         "Unable to send the item {0!r} to the trash! Error {1!r}".format(
                             dst, e
@@ -91,7 +93,8 @@ class FmRenameCommand(FmWindowCommand):
 
             user_friendly_path = user_friendly(dst)
             return yes_no_cancel_panel(
-                message=["This file already exists. Overwrite?", user_friendly_path],
+                message=["This file already exists. Overwrite?",
+                         user_friendly_path],
                 yes=overwrite,
                 no=open_file,
                 cancel=None,

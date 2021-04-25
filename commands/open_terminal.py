@@ -47,10 +47,12 @@ class FmOpenTerminalCommand(FmWindowCommand):
             terminal["platform"]
         except KeyError:
             return True
-        if not isinstance(terminal["platform"], str):
+        if isinstance(terminal["platform"], list):
+            platforms = terminal["platform"]
+        elif isinstance(terminal["platform"], str):
+            platforms = terminal["platform"].lower().split(" ")
+        else:
             return False
-
-        platforms = terminal["platform"].lower().split(" ")
         return current_platform in platforms
 
     def open_terminal(self, cmd, cwd, name):
@@ -59,5 +61,6 @@ class FmOpenTerminalCommand(FmWindowCommand):
 
         for j, bit in enumerate(cmd):
             cmd[j] = bit.replace("$cwd", cwd)
-        sublime.status_message('Opening "{0}" at {1}'.format(name, user_friendly(cwd)))
+        sublime.status_message(
+            'Opening "{0}" at {1}'.format(name, user_friendly(cwd)))
         return subprocess.Popen(cmd, cwd=cwd)
